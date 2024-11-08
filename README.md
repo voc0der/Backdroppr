@@ -117,7 +117,7 @@ Note: You may append `_FILE` to the end of the following variables: RADARR_API, 
 ### Docker
 1. Clone the repository: `git clone https://github.com/voc0der/Backdroppr.git`.
 2. Navigate to the repo's directory: `cd Backdroppr`.
-3. Build the image: `docker build -t voc0der/backdroppr:latest .` (you can skip if you want to use my image)
+3. Build the image: `docker build -t voc0der/backdroppr:latest .`
 4. [Edit the docker-compose file](###docker-compose.yml).
 5. [Edit the configuration file](###config.yaml).
 6. Start the container `docker-compose up -d`.
