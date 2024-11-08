@@ -1,5 +1,5 @@
 # Backdroppr
-*Backdroppr* is a tool written in Python that is used to import movies and shows from Radarr and Sonar, download appropriate trailers, remove borders and adding them to your library.
+*Backdroppr* is a tool written in Python that is used to import movies and shows from Radarr and Sonar, download appropriate trailers, remove borders and adding them to your library. This is a fork of https://github.com/ShiniGandhi/Backdroppr.
 
 ## Features
 * Automatically select the highest resolution available on YouTube (while trying to avoid 360 videos).
@@ -32,20 +32,6 @@
 ## How to Install
 Backdropper can be used as a standalone program or as a docker container.
 This guide assumes you already have Docker (if used), Radarr, and Sonarr installed and set up.
-### Standalone
-1. Clone the repository: `git clone https://github.com/ShiniGandhi/Backdroppr.git`.
-2. Navigate to the repo's directory: `cd Backdroppr`.
-3. Install python and ffmpeg: `sudo apt install python3 ffmpeg -y`.
-4. Install python requirements: `pip install -r requirements.txt`.
-5. [Edit the configuration file](###config.yaml).
-6. Run the program `python3 main.py`.
-### Docker
-1. Clone the repository: `git clone https://github.com/ShiniGandhi/Backdroppr.git`.
-2. Navigate to the repo's directory: `cd Backdroppr`.
-3. Build the image: `docker build -t shinigandhi/backdroppr:latest .` (you can skip if you want to use my image)
-4. [Edit the docker-compose file](###docker-compose.yml).
-5. [Edit the configuration file](###config.yaml).
-6. Start the container `docker-compose up -d`.
 
 ## Configuration
 These variables are used to configure the runtime options of Backdroppr. At least some of them are required to be configured for Backdroppr to run.
@@ -67,7 +53,7 @@ These variables are used to configure the runtime options of Backdroppr. At leas
 | moviepath | Override the path set inside Radarr if not the same as the script's </br>Useful if Radarr is running inside a container or on a different machine.                                                                                         | `"/vault/Media/Movies"` | No |
 | tvpath | Override the path set inside Sonarr if not the same as the script's </br>Useful if Sonarr is running inside a container or on a different machine.                                                                                         | `"/vault/Media/TV Shows"` | No |
 
-When using configuration file, Backdroppr will read `config.yaml` in the configuration folder to get these runtime parameters:
+Alternatively to setting these variables in the environment, when using configuration file, Backdroppr will read `config.yaml` in the configuration folder to get these runtime parameters:
 
 ### config.yaml
 ```### Mandatory ###
@@ -95,7 +81,7 @@ version: "3"
 services:
   backdroppr:
     container_name: backdroppr
-    image: shinigandhi/backdroppr:latest
+    image: voc0der/backdroppr:latest
     ### Optional: Uncomment case-sensitive environment variables to configure backdroppr ###
     # environment:
     #   - RADARR_API="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
@@ -120,3 +106,18 @@ services:
       - /vault/Media/Movies:/movies #Movie directory re-routing
 ```
 Note: You may append `_FILE` to the end of the following variables: RADARR_API, SONARR_API, TMDB_API and provide a valid file path.
+
+### Standalone
+1. Clone the repository: `git clone https://github.com/voc0der/Backdroppr.git`.
+2. Navigate to the repo's directory: `cd Backdroppr`.
+3. Install python and ffmpeg: `sudo apt install python3 ffmpeg -y`.
+4. Install python requirements: `pip install -r requirements.txt`.
+5. [Edit the configuration file](###config.yaml).
+6. Run the program `python3 main.py`.
+### Docker
+1. Clone the repository: `git clone https://github.com/voc0der/Backdroppr.git`.
+2. Navigate to the repo's directory: `cd Backdroppr`.
+3. Build the image: `docker build -t voc0der/backdroppr:latest .` (you can skip if you want to use my image)
+4. [Edit the docker-compose file](###docker-compose.yml).
+5. [Edit the configuration file](###config.yaml).
+6. Start the container `docker-compose up -d`.
