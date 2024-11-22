@@ -1,0 +1,35 @@
+name: Build Docker Image
+
+# Trigger the workflow on push events to the 'main' branch (adjust to your default branch)
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Check out the repository
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Step 2: Log in to Docker Hub (optional if you're pushing to a registry)
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    # Step 3: Build the Docker image
+    - name: Build Docker image
+      run: |
+        # Build with both commit SHA and 'latest' tag
+        docker build -t backdroppr:${{ github.sha }} -t backdroppr:latest .
+
+    # Step 4: Optionally push the image to Docker Hub
+    - name: Push Docker images to Docker Hub
+      run: |
+        docker push backdroppr:${{ github.sha }}
+        docker push backdroppr:latest
