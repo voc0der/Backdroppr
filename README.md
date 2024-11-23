@@ -16,18 +16,8 @@
 * Issue when a video with 5.1 audio is found.
 * Skips the rest of the trailers in TheMovieDB if a link is dead.
 
-## To-do List
-* Vimeo fallback.
-* Customizeable filenames.
-* Codec selection (as well as hardware acceleration).
-* Customizeable bitrates.
-
 ## Requirements
-(note: currently only works in Linux)
-* Python3
-* ffmpeg
-* Radarr
-* Sonarr
+Docker
 
 ## How to Install
 Backdropper can be used as a standalone program or as a docker container.
@@ -53,9 +43,45 @@ These variables are used to configure the runtime options of Backdroppr. At leas
 | moviepath | Override the path set inside Radarr if not the same as the script's </br>Useful if Radarr is running inside a container or on a different machine.                                                                                         | `"/vault/Media/Movies"` | No |
 | tvpath | Override the path set inside Sonarr if not the same as the script's </br>Useful if Sonarr is running inside a container or on a different machine.                                                                                         | `"/vault/Media/TV Shows"` | No |
 
-Alternatively to setting these variables in the environment, when using configuration file, Backdroppr will read `config.yaml` in the configuration folder to get these runtime parameters:
 
-### config.yaml
+
+
+### docker-compose.yml
+```
+services:
+  backdroppr:
+    container_name: backdroppr
+    image: voc0der/backdroppr:latest
+    ### Optional: Uncomment case-sensitive environment variables to configure backdroppr ###
+    environment:
+      - RADARR_API="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      - RADARR_HOST=http://localhost:7878
+      - SONARR_API="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      - SONARR_HOST=http://localhost:8989
+      - TMDB_API=""xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx""
+      ### Uncomment if needed ###
+      # - OUTPUT_DIRS="trailers"
+      # - SLEEP_TIME=3
+      # - LENGTH_RANGE="30,300"
+      # - FILETYPE="webm"
+      # - SKIP_INTROS=True
+      # - THREAD_COUNT="8"
+      # - SUBS=True
+      # - MOVIEPATH="/vault/Media/Movies"
+      # - TVPATH="/vault/Media/TV Shows"
+    restart: always
+    volumes:
+      # Uncomment only if using config file:
+      #- ./config:/config
+      - /vault/Media/TV Shows:/tv
+      - /vault/Media/Movies:/movies
+```
+#### Docker Secrets
+You may append `_FILE` to the end of the following variables: RADARR_API, SONARR_API, TMDB_API and provide a valid file path.
+
+### Legacy
+Alternatively to setting these variables in the environment, when using configuration file, Backdroppr will read `config.yaml` in the configuration folder to get these runtime parameters:
+#### config.yaml
 ```### Mandatory ###
 radarr_api: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 radarr_host: "http://172.0.0.1:7878"
@@ -75,37 +101,6 @@ moviepath: "/vault/Media/Movies"
 tvpath: "/vault/Media/TV Shows"
 ```
 
-### docker-compose.yml
-```
-version: "3"
-services:
-  backdroppr:
-    container_name: backdroppr
-    image: voc0der/backdroppr:latest
-    ### Optional: Uncomment case-sensitive environment variables to configure backdroppr ###
-    # environment:
-    #   - RADARR_API="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-    #   - RADARR_HOST=http://localhost:7878
-    #   - SONARR_API="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-    #   - SONARR_HOST=http://localhost:8989
-    #   - TMDB_API=""xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx""
-    #   - OUTPUT_DIRS="trailers"
-    #   - SLEEP_TIME=3
-    #   - LENGTH_RANGE="30,300"
-    #   - FILETYPE="webm"
-    #   - SKIP_INTROS=True
-    #   - THREAD_COUNT="8"
-    #   - SUBS=True
-      ### Uncomment if needed ###
-      # - MOVIEPATH="/vault/Media/Movies"
-      # - TVPATH="/vault/Media/TV Shows"
-    restart: always
-    volumes:
-      - ./config:/config #The config file location, Optional if using env variables
-      - /vault/Media/TV Shows:/tv #TV show directory re-routing
-      - /vault/Media/Movies:/movies #Movie directory re-routing
-```
-Note: You may append `_FILE` to the end of the following variables: RADARR_API, SONARR_API, TMDB_API and provide a valid file path.
 
 ### Standalone
 1. Clone the repository: `git clone https://github.com/voc0der/Backdroppr.git`.
