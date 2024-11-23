@@ -26,10 +26,10 @@ jobs:
     - name: Build Docker image
       run: |
         # Build with both commit SHA and 'latest' tag
-        docker build -t backdroppr:${{ github.sha }} -t backdroppr:latest .
+        docker build -t voc0der/backdroppr:${{ github.sha }} -t voc0der/backdroppr:latest .
 
     # Step 4: Optionally push the image to Docker Hub
     - name: Push Docker images to Docker Hub
       run: |
-        docker push backdroppr:${{ github.sha }}
-        docker push backdroppr:latest
+        docker push voc0der/backdroppr:${{ github.sha }}
+        docker push voc0der/backdroppr:latest
