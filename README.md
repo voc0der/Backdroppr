@@ -20,8 +20,9 @@
 Docker
 
 ## How to Install
-Backdropper can be used as a standalone program or as a docker container.
-This guide assumes you already have Docker (if used), Radarr, and Sonarr installed and set up.
+It is preferred to run this in Docker. You will also need Radarr, and Sonarr installed and set up.
+
+Alternatively, Backdroppr can be used as a standalone program.
 
 ## Configuration
 These variables are used to configure the runtime options of Backdroppr. At least some of them are required to be configured for Backdroppr to run.
@@ -43,64 +44,13 @@ These variables are used to configure the runtime options of Backdroppr. At leas
 | moviepath | Override the path set inside Radarr if not the same as the script's </br>Useful if Radarr is running inside a container or on a different machine.                                                                                         | `"/vault/Media/Movies"` | No |
 | tvpath | Override the path set inside Sonarr if not the same as the script's </br>Useful if Sonarr is running inside a container or on a different machine.                                                                                         | `"/vault/Media/TV Shows"` | No |
 
+### docker-compose.yml [(see example)](docker-compose.yml)
 
-
-
-### docker-compose.yml
-```
-services:
-  backdroppr:
-    container_name: backdroppr
-    image: voc0der/backdroppr:latest
-    ### Optional: Uncomment case-sensitive environment variables to configure backdroppr ###
-    environment:
-      - RADARR_API="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-      - RADARR_HOST=http://localhost:7878
-      - SONARR_API="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-      - SONARR_HOST=http://localhost:8989
-      - TMDB_API=""xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx""
-      ### Uncomment if needed ###
-      # - OUTPUT_DIRS="trailers"
-      # - SLEEP_TIME=3
-      # - LENGTH_RANGE="30,300"
-      # - FILETYPE="webm"
-      # - SKIP_INTROS=True
-      # - THREAD_COUNT="8"
-      # - SUBS=True
-      # - MOVIEPATH="/vault/Media/Movies"
-      # - TVPATH="/vault/Media/TV Shows"
-    restart: always
-    volumes:
-      # Uncomment only if using config file:
-      #- ./config:/config
-      - /vault/Media/TV Shows:/tv
-      - /vault/Media/Movies:/movies
-```
 #### Docker Secrets
 You may append `_FILE` to the end of the following variables: RADARR_API, SONARR_API, TMDB_API and provide a valid file path.
 
 ### Legacy
-Alternatively to setting these variables in the environment, when using configuration file, Backdroppr will read `config.yaml` in the configuration folder to get these runtime parameters:
-#### config.yaml
-```### Mandatory ###
-radarr_api: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-radarr_host: "http://172.0.0.1:7878"
-sonarr_api: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-sonarr_host: "http://172.0.0.1:8989"
-tmdb_api: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-output_dirs: "trailers"
-sleep_time: 3
-length_range: "30,300"
-### Optional ###
-filetype: "webm"
-skip_intros: True
-thread_count: 8
-subs: True
-### Uncomment if needed ###
-moviepath: "/vault/Media/Movies"
-tvpath: "/vault/Media/TV Shows"
-```
-
+Alternatively to setting these variables in the environment, when using configuration file, Backdroppr will read `config.yaml` in the configuration folder to get these runtime parameters. [(see example)](config.yaml)
 
 ### Standalone
 1. Clone the repository: `git clone https://github.com/voc0der/Backdroppr.git`.
