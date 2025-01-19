@@ -1,5 +1,10 @@
+# Final Note:
+## I am not affiliated with this, but I am moving to Trailarr. https://github.com/nandyalu/trailarr
+
 # Backdroppr
 *Backdroppr* is a tool written in Python that is used to import movies and shows from Radarr and Sonar, download appropriate trailers, remove borders and adding them to your library. This is a fork of https://github.com/ShiniGandhi/Backdroppr.
+
+I will continue trying to merge as I can but not doing any other updates to this repo.
 
 ## Features
 * Automatically select the highest resolution available on YouTube (while trying to avoid 360 videos).
