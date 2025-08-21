@@ -1,4 +1,4 @@
 pyyaml~=6.0.2
-yt_dlp~=2025.7.21
+yt_dlp~=2025.8.20
 pyarr~=5.2.0
 requests~=2.32.5
